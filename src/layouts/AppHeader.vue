@@ -1,27 +1,8 @@
 <template>
   <header class="header">
-    <div class="header__notification">
-      <router-link v-if="notification.statement" to="/statements" :class="{'header__notification-baget': !!statementCnt}" title="Выписки" :data-count="statementCnt">
-        <v-icon icon="mdi-notebook"></v-icon>
-      </router-link>
-      <router-link v-if="notification.package" to="/package" :class="{'header__notification-baget': !!packageCnt}" title="Пакеты об изменениях" :data-count="packageCnt">
-        <v-icon icon="mdi-bell"></v-icon>
-      </router-link>
-      <router-link v-if="notification.message" to="/messages" :class="{'header__notification-baget': !!messageCnt}" title="Сообщения" :data-count="messageCnt">
-        <v-icon icon="mdi-message"></v-icon>
-      </router-link>
-      <router-link v-if="notification.petition" to="/petition/list" :class="{'header__notification-baget': !!petitionCnt}" title="Обращения" :data-count="petitionCnt">
-        <v-icon icon="mdi-file-sign"></v-icon>
-      </router-link>
-    </div>
     <div class="header__login" v-if="isAuth">
       <div class="header__login-info">
-        <p class="header__login-info-name">{{ user.fio }}</p>
-        <v-tooltip :text="user.userRole.description" location="bottom">
-          <template v-slot:activator="{ props }" >
-            <p v-bind="props" class="header__login-info-type">{{ user.userRole.title }}</p>
-          </template>
-        </v-tooltip>
+        <p class="header__login-info-name">{{ user.fullname }}</p>
       </div>
       <v-menu>
         <template v-slot:activator="{ props }">
@@ -51,23 +32,14 @@
 
 <script setup>
 import { useStore } from "vuex";
-import {computed, onMounted, onUnmounted, ref} from "vue";
+import {computed} from "vue";
 import {useRouter} from "vue-router";
-import {notificationList} from "@/services/statistic/notificationService.js";
 
 const router = useRouter()
 
 const store = useStore()
 const isAuth = computed(() => store.getters["auth/isAuthenticated"])
 const user = computed(() => store.getters["auth/user"])
-
-const notification = ref({})
-const timer = ref(null)
-
-const statementCnt = computed(() => notification.value.statement?.cntSigGeneratedForUser)
-const messageCnt = computed(() => notification.value.message?.cntUnreadForUser)
-const packageCnt = computed(() => notification.value.package?.cntModerationRequestForUser)
-const petitionCnt = computed(() => notification.value.petition?.cntModeratedForUser)
 
 const handleLogout = () => {
   store.dispatch("auth/logout").then(res => {
@@ -77,60 +49,18 @@ const handleLogout = () => {
   })
 }
 
-const handleRedirect = (path, id) => {
-  router.push({
-    name: path,
-    params: {
-      id: id
-    }
-  })
-}
-
 const items = [
   {
-    title: "Аккаунт",
+    title: "Account",
     content: [
       {
-        icon: "mdi-badge-account-horizontal-outline",
-        title: 'Профиль',
-        handleFunc: () => handleRedirect("profile", user.value.id)
-      },
-      {
-        icon: "mdi-history",
-        title: 'История',
-        handleFunc: () => handleRedirect("history")
-      },
-      {
-        icon: "mdi-cog",
-        title: 'Настройки',
-        handleFunc: () => handleRedirect("settings")
-      },
-      {
         icon: "mdi-logout-variant",
-        title: 'Выйти',
+        title: 'Logout',
         handleFunc: handleLogout
       },
     ]
   }
 ]
-
-onMounted(() => {
-  notificationList().then(res => {
-    notification.value = res
-  })
-
-  timer.value = setInterval(() => {
-    notificationList().then(res => {
-      notification.value = res
-    })
-  }, 60000)
-})
-
-onUnmounted(() => {
-  if(timer.value){
-    clearInterval(timer.value)
-  }
-})
 
 </script>
 

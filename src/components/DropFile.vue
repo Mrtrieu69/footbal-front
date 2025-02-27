@@ -1,9 +1,8 @@
 <template>
-  <div class="main">
-    <div class="container">
+  <div class="file-wrp">
+    <div v-if="!videoHandled">
       <div :class="{hidden: fileUpload}">
         <div
-
             class="dropzone-container"
             @dragover="dragover"
             @dragleave="dragleave"
@@ -39,9 +38,27 @@
 
           <div class="preview-controls">
             <v-btn class="mr-4" @click="changeVideo">Change video</v-btn>
-            <v-btn :loading="loading" color="primary" @click="uploadVideo">Upload video</v-btn>
+            <v-btn :loading="loading" color="primary" prepend-icon="mdi-upload" @click="handleUploadVideo">Upload video</v-btn>
           </div>
         </div>
+      </div>
+    </div>
+    <div class="d-flex flex-column ga-2" v-else>
+      <div>
+        <v-icon icon="mdi-check-bold" color="green" class="mr-2"></v-icon>
+        <span class="text-green">Upload successfully!</span>
+      </div>
+      <div class="preview-video">
+        <video width="640" height="360" controls>
+          <source :src="videoHandled" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+      <div class="preview-controls">
+        <v-btn class="mr-4" @click="changeVideo">Change video</v-btn>
+        <a :href="videoHandled" download>
+          <v-btn :loading="loading" color="primary" prepend-icon="mdi-download">Download video</v-btn>
+        </a>
       </div>
     </div>
   </div>
@@ -50,6 +67,7 @@
 <script setup>
 
 import {ref} from "vue";
+import {uploadVideo} from "@/services/videoService.js";
 
 const isDragging = ref(false)
 const file = ref(null)
@@ -58,6 +76,7 @@ const video = ref(null)
 const fileUpload = ref(null)
 const loading = ref(false)
 
+const videoHandled = ref(false)
 
 const onChange = (e, type) => {
   if(type === "input"){
@@ -90,44 +109,35 @@ const drop = (e) => {
 const changeVideo = () => {
   file.value.value = null
   fileUpload.value = null
+  videoHandled.value = false
 }
 
-const uploadVideo = async () => {
+const handleUploadVideo = async () => {
   loading.value = true
 
   const formData = new FormData();
   formData.append('video', file.value.files[0]);
 
-  const response = await fetch('/api/upload', {
-    method: 'POST',
-    body: formData
-  }).finally(() => loading.value = false);
+  try{
+    const res = await uploadVideo(formData)
 
-  if (response.ok) {
-    const data = await response.json();
-    const videoUrl = data.videoUrl;
-    const videoElement = document.getElementById('output-video');
-    videoElement.src = videoUrl;
-  } else {
-    alert("Đã có lỗi xảy ra.");
+    videoHandled.value = import.meta.env.VITE_API_BASE_URI + res.processed_video_path.replace("\\", "/")
+  }catch (err){
+    console.log("err upload video: ", err)
+  }finally {
+    loading.value = false
   }
 }
 </script>
 
-<style>
-.main {
+<style scoped>
+.file-wrp {
   display: flex;
   flex-grow: 1;
   align-items: center;
-  height: 100vh;
+  height: calc(100vh - 108px);
   justify-content: center;
   text-align: center;
-}
-
-.container{
-  width: 640px;
-  height: 20px;
-  position: relative;
 }
 
 .hidden{

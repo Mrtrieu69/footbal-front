@@ -1,13 +1,11 @@
 import axios from "axios"
 import * as storage from "@/utils/storage"
-import { ERROR_MESSAGE_500 } from "@/utils/dictionary.js"
 import store from "@/store/index.js";
 import router from "@/router/index.js";
 import {isObject} from "@/utils/object.js";
 
 const baseRequest = axios.create({
     baseURL: import.meta.env.VITE_API_BASE_URI,
-    withCredentials: true
 })
 
 baseRequest.interceptors.request.use(config => {
@@ -28,7 +26,7 @@ const httpRequest = async (options) => {
         console.log("HTTP request err", err)
 
         if(err.response?.data){
-            if(err.response.data.code === 401){
+            if(err.response.status === 401){
                 await store.commit("auth/logout")
                 await router.push({name: "login"})
             }
@@ -49,7 +47,7 @@ const httpRequest = async (options) => {
         }else if (err.message){
             throw err.message
         } else{
-            throw ERROR_MESSAGE_500
+            throw "An unexpected server error occurred. Please try again later."
         }
     }
 }
