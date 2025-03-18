@@ -1,76 +1,73 @@
 <template>
-  <div class="file-wrp">
-    <div v-if="!videoHandled">
-      <div :class="{ hidden: fileUpload }">
-        <div
-          class="dropzone-container"
-          @dragover="dragover"
-          @dragleave="dragleave"
-          @drop="drop"
-          :class="{ dragging: isDragging }"
-        >
-          <input
-            type="file"
-            name="file"
-            id="fileInput"
-            class="hidden-input"
-            @change="(e) => onChange(e, 'input')"
-            ref="file"
-            accept=".mp4, video/mp4"
-          />
-
-          <label
-            :style="{ 'pointer-events': isDragging ? 'none' : 'auto' }"
-            for="fileInput"
-            class="file-label"
+  <div class="body">
+    <div class="file-wrp">
+      <div v-if="!videoHandled">
+        <div :class="{ hidden: fileUpload }">
+          <div
+              class="dropzone-container"
+              @dragover="dragover"
+              @dragleave="dragleave"
+              @drop="drop"
+              :class="{ dragging: isDragging }"
           >
-            <div v-if="isDragging">Release to drop files here.</div>
-            <div v-else>Drop files here or <u>click here</u> to upload video.</div>
-          </label>
+            <input
+                type="file"
+                name="file"
+                id="fileInput"
+                class="hidden-input"
+                @change="(e) => onChange(e, 'input')"
+                ref="file"
+                accept=".mp4, video/mp4"
+            />
+
+            <label
+                :style="{ 'pointer-events': isDragging ? 'none' : 'auto' }"
+                for="fileInput"
+                class="file-label"
+            >
+              <div v-if="isDragging">Release to drop files here.</div>
+              <div v-else>Drop files here or <u>click here</u> to upload video.</div>
+            </label>
+          </div>
+        </div>
+        <div :class="{ hidden: !fileUpload }">
+          <div class="preview-container">
+            <div class="preview-video">
+              <video ref="video" width="100%" height="100%" controls>
+                <source ref="source" src="" id="video_here" />
+                Your browser does not support HTML5 video.
+              </video>
+            </div>
+
+            <p>{{ fileUpload?.name }}</p>
+
+            <div class="preview-controls">
+              <v-btn class="mr-4" @click="changeVideo">Change video</v-btn>
+              <v-btn
+                  :loading="loading"
+                  color="primary"
+                  prepend-icon="mdi-upload"
+                  @click="handleUploadVideo"
+              >Upload video</v-btn
+              >
+            </div>
+          </div>
         </div>
       </div>
-      <div :class="{ hidden: !fileUpload }">
-        <div class="preview-container">
+      <div v-else>
+        <div class="mb-5">
+          <p class="title">Main video</p>
           <div class="preview-video">
-            <video ref="video" width="100%" height="100%" controls>
-              <source ref="source" src="" id="video_here" />
-              Your browser does not support HTML5 video.
+            <video width="100%" height="100%" controls>
+              <source :src="videoHandled" type="video/mp4" />
+              Your browser does not support the video tag.
             </video>
           </div>
-
-          <p>{{ fileUpload?.name }}</p>
-
-          <div class="preview-controls">
-            <v-btn class="mr-4" @click="changeVideo">Change video</v-btn>
-            <v-btn
-              :loading="loading"
-              color="primary"
-              prepend-icon="mdi-upload"
-              @click="handleUploadVideo"
-              >Upload video</v-btn
-            >
-          </div>
         </div>
-      </div>
-    </div>
-    <div class="d-flex flex-column ga-2" v-else>
-      <div>
-        <v-icon icon="mdi-check-bold" color="green" class="mr-2"></v-icon>
-        <span class="text-green">Upload successfully!</span>
-      </div>
-      <div class="preview-video">
-        <video width="640" height="360" controls>
-          <source :src="videoHandled" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-      </div>
-      <div class="preview-controls">
-        <v-btn class="mr-4" @click="changeVideo">Change video</v-btn>
-        <a :href="videoHandled" download>
-          <v-btn :loading="loading" color="primary" prepend-icon="mdi-download"
-            >Download video</v-btn
-          >
-        </a>
+        <div class="d-flex ga-8">
+          <table-data></table-data>
+          <additional-video></additional-video>
+        </div>
       </div>
     </div>
   </div>
@@ -79,6 +76,8 @@
 <script setup>
 import { ref } from "vue";
 import { uploadVideo } from "@/services/videoService.js";
+import videoTest from "@/data_handled/ok_798b45_0.mp4";
+import { TableData, AdditionalVideo } from "@/components";
 
 const isDragging = ref(false);
 const file = ref(null);
@@ -87,7 +86,7 @@ const video = ref(null);
 const fileUpload = ref(null);
 const loading = ref(false);
 
-const videoHandled = ref(false);
+const videoHandled = ref(videoTest);
 
 const onChange = (e, type) => {
   if (type === "input") {
@@ -146,9 +145,8 @@ const handleUploadVideo = async () => {
   display: flex;
   flex-grow: 1;
   align-items: center;
-  height: calc(100vh - 108px);
+  min-height: calc(100vh - 108px);
   justify-content: center;
-  text-align: center;
 }
 
 .hidden {
@@ -199,9 +197,19 @@ const handleUploadVideo = async () => {
 .preview-video video {
   border-radius: 12px;
   overflow: hidden;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border: 2px solid #00ffcc;
 }
 
 .preview-controls {
   margin-top: 20px;
+}
+
+.title{
+  color: white;
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1;
+  margin-bottom: 12px;
 }
 </style>

@@ -12,7 +12,7 @@ export default {
 :root{
   --text-primary: #033c73;
   --color-primary: 3, 60, 115;
-  --color-header: linear-gradient(to right, #27394e 70%, #415b76 100%);
+  --color-header: linear-gradient(to right, #00ffcc 70%, #156555 100%);
 }
 
 
@@ -45,6 +45,23 @@ i.v-icon{
 body {
   b, strong {
     font-weight: 500;
+  }
+}
+
+
+.body{
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+
+  @media (min-width: 960px) {
+    max-width: 600px;
+  }
+  @media (min-width: 1280px) {
+    max-width: 900px;
+  }
+  @media (min-width: 1680px) {
+    max-width: 1200px;
   }
 }
 

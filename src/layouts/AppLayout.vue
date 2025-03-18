@@ -3,11 +3,14 @@
     <div class="content">
       <app-header />
       <div class="main">
-        <router-view v-slot="{ Component }">
-          <keep-alive>
-            <component :is="Component" :key="route.fullPath"/>
-          </keep-alive>
-        </router-view>
+        <div class="bg-opacity"></div>
+        <div class="position-relative">
+          <router-view v-slot="{ Component }">
+            <keep-alive>
+              <component :is="Component" :key="route.fullPath"/>
+            </keep-alive>
+          </router-view>
+        </div>
       </div>
     </div>
   </div>
@@ -29,9 +32,21 @@
     flex: 1;
   }
   .main{
-    background-color: #f1f4f6;
     padding: 24px;
     min-height: calc(100vh - 60px);
+    background: url("https://images.unsplash.com/photo-1489944440615-453fc2b6a9a9?q=80&w=1923&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+    no-repeat center center fixed;
+    background-size: cover;
+    position: relative;
+  }
+  .bg-opacity{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.4); /* Lớp phủ tối để nổi bật nội dung */
+    z-index: 0;
   }
   .push-box{
     min-width: 20%;
