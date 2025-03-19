@@ -2,7 +2,7 @@
   <header class="header">
     <div class="header__login" v-if="isAuth">
       <div class="header__login-info">
-        <p class="header__login-info-name">{{ user.fullname }}</p>
+        <p class="header__login-info-name">{{ user?.fullname }}</p>
       </div>
       <v-menu>
         <template v-slot:activator="{ props }">
