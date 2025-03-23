@@ -146,7 +146,7 @@ const handleUploadVideo = async () => {
   display: flex;
   flex-grow: 1;
   align-items: center;
-  height: calc(100vh - 108px);
+  height: calc(100vh - 152px);
   justify-content: center;
   text-align: center;
 }

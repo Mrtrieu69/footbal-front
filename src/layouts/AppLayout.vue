@@ -1,6 +1,8 @@
 <template>
-  <div class="container">
+  <div class="container-wrp">
     <div class="content">
+      <div class="bg-top"></div>
+      <div class="bg-bottom"></div>
       <app-header />
       <div class="main">
         <router-view v-slot="{ Component }">
@@ -21,17 +23,21 @@
 </script>
 
 <style lang="scss">
-  .container{
+  .container-wrp{
     display: flex;
+    overflow: hidden;
   }
   .content{
     position: relative;
-    flex: 1;
+    width: 1224px;
+    margin: auto;
   }
   .main{
-    background-color: #f1f4f6;
-    padding: 24px;
-    min-height: calc(100vh - 60px);
+    margin-top: 24px;
+    margin-bottom: 24px;
+    min-height: calc(100vh - 152px);
+    border-radius: 36px;
+    background: rgba(255, 255, 255, 0.16);
   }
   .push-box{
     min-width: 20%;
@@ -55,5 +61,30 @@
   }
   .custom-push-box-icon {
     font-size: 34px !important;
+  }
+
+  .bg-top{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 1024px;
+    height: 1024px;
+    border-radius: 2048px;
+    background: #146C60;
+    filter: blur(500px);
+    transform: translate(-50%, -50%);
+    z-index: -1;
+  }
+  .bg-bottom{
+    position: absolute;
+    right: 200px;
+    bottom: -300px;
+    width: 1024px;
+    height: 1024px;
+    border-radius: 2048px;
+    background: #DD9C79;
+    filter: blur(500px);
+    transform: translate(50%, 50%);
+    z-index: -1;
   }
 </style>

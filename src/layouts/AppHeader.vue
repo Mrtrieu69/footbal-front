@@ -1,8 +1,9 @@
 <template>
   <header class="header">
+    <img style="margin-left: -12px; width: 70px" alt="logo" :src="logo" />
     <div class="header__login" v-if="isAuth">
       <div class="header__login-info">
-        <p class="header__login-info-name">{{ user?.fullname }}</p>
+        <p class="header__login-info-name">Trieu Minh Tam</p>
       </div>
       <v-menu>
         <template v-slot:activator="{ props }">
@@ -34,6 +35,7 @@
 import { useStore } from "vuex";
 import {computed} from "vue";
 import {useRouter} from "vue-router";
+import logo from "@/assets/logo2.png"
 
 const router = useRouter()
 
@@ -66,13 +68,13 @@ const items = [
 
 <style lang="scss" scoped>
 .header{
-  padding: 0 24px;
-  height: 60px;
-  background-image: var(--color-header);
-  position: sticky;
-  top: 0;
+  padding: 20px 30px;
+  height: 80px;
+  border-radius: 36px;
+  background: rgba(255, 255, 255, 0.16);
+  margin-top: 24px;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   z-index: 10;
   gap: 20px;

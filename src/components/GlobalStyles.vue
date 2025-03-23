@@ -46,6 +46,9 @@ body {
   b, strong {
     font-weight: 500;
   }
+
+  font-family: Arial, sans-serif;
+  background-color: #080607;
 }
 
 .text-xs{
