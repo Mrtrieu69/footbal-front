@@ -47,7 +47,7 @@ body {
     font-weight: 500;
   }
 
-  font-family: Arial, sans-serif;
+  font-family: "Inter", sans-serif;
   background-color: #080607;
 }
 
