@@ -1,6 +1,6 @@
 <template>
   <header class="header">
-    <img style="margin-left: -12px; width: 70px" alt="logo" :src="logo" />
+    <img style="width: 50px" alt="logo" :src="logo" />
     <div class="header__login" v-if="isAuth">
       <div class="header__login-info">
         <p class="header__login-info-name">Trieu Minh Tam</p>
@@ -35,7 +35,7 @@
 import { useStore } from "vuex";
 import {computed} from "vue";
 import {useRouter} from "vue-router";
-import logo from "@/assets/logo2.png"
+import logo from "@/assets/logo.png"
 
 const router = useRouter()
 

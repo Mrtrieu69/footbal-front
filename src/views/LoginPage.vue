@@ -74,7 +74,7 @@ import { ref } from "vue"
 import { useStore } from "vuex";
 import { useRouter } from "vue-router";
 import backgroundImage from "@/assets/Burnham Stone.png"
-import logo from "@/assets/logo2.png"
+import logo from "@/assets/logo.png"
 
 const visible = ref(false)
 const username = ref("")
