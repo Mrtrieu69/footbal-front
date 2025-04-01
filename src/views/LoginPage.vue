@@ -47,19 +47,19 @@
         <div>
           <h2 class="text-4xl font-bold mb-3 text-center text-white">Welcome to FootballAI</h2>
           <p class="text-subtitle text-gray-400 mb-8 text-center">Enter your email and password to access your account</p>
-          <form>
+          <v-form ref="form">
             <label class="label" for="email">Email</label>
-            <input class="form-input mb-6" type="email" id="email" placeholder="Enter your email">
+            <input class="form-input mb-6" v-model="username" type="email" id="email" placeholder="Enter your email">
             <label class="label" for="password">Password</label>
-            <input class="form-input" type="password" id="password" placeholder="Enter your password">
+            <input class="form-input" v-model="password" type="password" id="password" placeholder="Enter your password">
             <div class="checkbox-container">
               <label>
                 <input type="checkbox"> Remember me
               </label>
               <a href="#">Forgot Password?</a>
             </div>
-            <button type="button">Sign In</button>
-          </form>
+            <button @click="submit" type="button">Sign In</button>
+          </v-form>
         </div>
         <div class="footer">
           <p>Don't have an account? <a class="sigup" href="#">Sign Up</a></p>

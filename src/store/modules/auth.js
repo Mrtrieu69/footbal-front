@@ -35,11 +35,13 @@ const mutations = {
 const actions = {
     async login({commit}, payload) {
         try{
-            const { token } = await httpRequest({
-                method: "post",
-                url: "/api/login",
-                data: payload
-            })
+            // const { token } = await httpRequest({
+            //     method: "post",
+            //     url: "/api/login",
+            //     data: payload
+            // })
+
+            const token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3NDMyNzg5MTAsImV4cCI6MTc0MzYzODkxMCwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoib3NzYV9hZG1pbiJ9.Qd36euoRORxq4V-61sgAUaWIByhlvbqqzwXk87ZHAy7NAELdWS_zbTEK4avsZ35TzDwbbSSWR1iFRlxAG4GF0A"
             await commit("setUserToken", token)
 
             const user = jwtDecode(token)

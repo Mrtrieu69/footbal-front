@@ -81,7 +81,7 @@
           Your browser does not support the video tag.
         </video>
       </div>
-      <videos-handled></videos-handled>
+<!--      <videos-handled></videos-handled>-->
       <table-static></table-static>
     </div>
   </div>
@@ -100,7 +100,7 @@ const video = ref(null);
 const fileUpload = ref(null);
 const loading = ref(false);
 
-const videoHandled = ref(false);
+const videoHandled = ref(videoTest);
 
 const onChange = (e, type) => {
   if (type === "input") {
